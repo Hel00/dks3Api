@@ -205,4 +205,4 @@ player.angle[] = 1.24
 player.disableGravity()]#
 
 addSoul(player.param[], 42069)
-addEffect(player.base[], 33)
+#addEffect(player.base[], 33) # addEffect crashes right now
