@@ -1,4 +1,4 @@
-# Dark Souls III Player Class
+# Dark Souls III API
 
 Replicating the player class from dark souls 3 so that it's usable programmatically
 ### Usage
