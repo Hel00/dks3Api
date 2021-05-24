@@ -1,5 +1,5 @@
 # Dark Souls III API
 
 ### Usage
-  Compile `playerClass.nim` file with `nim c --app:lib`
+  Compile your file with the `--app:lib` flag
   then inject the produced DLL into the game
