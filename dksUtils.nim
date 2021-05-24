@@ -1,6 +1,6 @@
 import winim
 
-proc GetAsyncKeyState*(vKey: int32): bool {.stdcall, dynlib: "user32", importc: "GetAsyncKeyState".}
+proc GetKey*(vKey: int32): bool {.stdcall, dynlib: "user32", importc: "GetAsyncKeyState".}
 
 # Function that just get's an offset, basically like cheat engine does
 # usage will explain gud

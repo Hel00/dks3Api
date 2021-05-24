@@ -1,114 +1,111 @@
-# nim c -d:release -d:danger --app:lib playerClass.nim
-
 # Standard library imports
 import bitops
-import os
 
 # Project imports
 import dksUtils
 
 # Function types
 type
-  InvadeProc    = proc(base: int64, invadeType: int) {.fastcall.}
-  AddSoulProc   = proc(playerParamBase: int64, souls: int) {.fastcall.}
-  AddEffectProc = proc(playerBase: int64, effect: int) {.fastcall.}
-  SpEffectProc  = proc(spEffectBase: int64, mode: int) {.fastcall.}
-  ItemGibProc   = proc(mapItemManager: int64, itemData: array[4, int32]) {.fastcall.}
+  InvadeProc*    = proc(base: int64, invadeType: int) {.fastcall.}
+  AddSoulProc*   = proc(playerParamBase: int64, souls: int) {.fastcall.}
+  AddEffectProc* = proc(playerBase: int64, effect: int) {.fastcall.}
+  SpEffectProc*  = proc(spEffectBase: int64, mode: int) {.fastcall.}
+  ItemGibProc*   = proc(mapItemManager: int64, itemData: array[4, int32]) {.fastcall.}
 
 let
   # Function Basses
-  addSoulBase:  int64 = getOffset(processHandle, @[BaseB, 0x80, 0x1FA0])
-  spEffectBase: int64 = getOffset(processHandle, @[BaseB, 0x80, 0x18, 0x18])
-  mapItemMan:   int64 = getOffset(processHandle, @[0x144752300]) # revert back to original if this breaks
+  addSoulBase*:  int64 = getOffset(processHandle, @[BaseB, 0x80, 0x1FA0])
+  spEffectBase*: int64 = getOffset(processHandle, @[BaseB, 0x80, 0x18, 0x18])
+  mapItemMan*:   int64 = getOffset(processHandle, @[0x144752300]) # revert back to original if this breaks
 
   # Functions
-  addSoul    = cast[AddSoulProc](0x1405A3310)
-  addEffect  = cast[AddEffectProc](0x140886C40)
-  spEffect   = cast[SpEffectProc](0x1409F3C30)
-  itemGibRaw = cast[ItemGibProc](0x1407BBA70)
+  addSoul*    = cast[AddSoulProc](0x1405A3310)
+  addEffect*  = cast[AddEffectProc](0x140886C40)
+  spEffect*   = cast[SpEffectProc](0x1409F3C30)
+  itemGibRaw* = cast[ItemGibProc](0x1407BBA70)
 
 # Player class with its stats and shit
 type
-  Player = object
-    base:  ptr int64
-    param: ptr int64
+  Player* = object
+    base*:  ptr int64
+    param*: ptr int64
 
     # Current stats
-    health:  ptr int64
-    mana:    ptr int64
-    stamina: ptr int64
+    health*:  ptr int64
+    mana*:    ptr int64
+    stamina*: ptr int64
 
     # Base stats
-    baseHealth:  ptr int64
-    baseMana:    ptr int64
-    baseStamina: ptr int64
+    baseHealth*:  ptr int64
+    baseMana*:    ptr int64
+    baseStamina*: ptr int64
 
     # Max stats
-    maxHealth:  ptr int64
-    maxMana:    ptr int64
-    maxStamina: ptr int64
+    maxHealth*:  ptr int64
+    maxMana*:    ptr int64
+    maxStamina*: ptr int64
 
     # Attributes
-    soulAmount: ptr int64
-    soulLevel:  ptr int64
-    humanity:   ptr int64
+    soulAmount*: ptr int64
+    soulLevel*:  ptr int64
+    humanity*:   ptr int64
 
-    vigor:        ptr int64
-    attunement:   ptr int64
-    endurance:    ptr int64
-    vitality:     ptr int64
-    strength:     ptr int64
-    dexterity:    ptr int64
-    intelligence: ptr int64
-    faith:        ptr int64
-    luck:         ptr int64
+    vigor*:        ptr int64
+    attunement*:   ptr int64
+    endurance*:    ptr int64
+    vitality*:     ptr int64
+    strength*:     ptr int64
+    dexterity*:    ptr int64
+    intelligence*: ptr int64
+    faith*:        ptr int64
+    luck*:         ptr int64
 
     # Resistances
-    poison: ptr int64
-    toxic:  ptr int64
-    bleed:  ptr int64
-    curse:  ptr int64
-    frost:  ptr int64
+    poison*: ptr int64
+    toxic*:  ptr int64
+    bleed*:  ptr int64
+    curse*:  ptr int64
+    frost*:  ptr int64
 
     # Max resistances
-    maxPoison: ptr int64
-    maxToxic:  ptr int64
-    maxBleed:  ptr int64
-    maxCurse:  ptr int64
-    maxFrost:  ptr int64
+    maxPoison*: ptr int64
+    maxToxic*:  ptr int64
+    maxBleed*:  ptr int64
+    maxCurse*:  ptr int64
+    maxFrost*:  ptr int64
 
     # Player flags
-    noHitFlag:            ptr byte
-    noAttackFlag:         ptr byte
-    noMoveFlag:           ptr byte
-    noGoodsConsumeFlag:   ptr byte
-    noUpdateFlag:         ptr byte
-    disableGravityFlag:   ptr byte
-    noDeadFlag:           ptr byte
-    noDamageFlag:         ptr byte
-    noStaminaConsumeFlag: ptr byte
-    noManaConsumeFlag:    ptr byte
-    invulnerabilityFlag:  ptr byte
-    iFramesFlag:          ptr byte
-    parryFlag:            ptr byte
-    eventSuperArmorFlag:  ptr byte
-    enableCharAsmFlag:    ptr byte
+    noHitFlag*:            ptr byte
+    noAttackFlag*:         ptr byte
+    noMoveFlag*:           ptr byte
+    noGoodsConsumeFlag*:   ptr byte
+    noUpdateFlag*:         ptr byte
+    disableGravityFlag*:   ptr byte
+    noDeadFlag*:           ptr byte
+    noDamageFlag*:         ptr byte
+    noStaminaConsumeFlag*: ptr byte
+    noManaConsumeFlag*:    ptr byte
+    invulnerabilityFlag*:  ptr byte
+    iFramesFlag*:          ptr byte
+    parryFlag*:            ptr byte
+    eventSuperArmorFlag*:  ptr byte
+    enableCharAsmFlag*:    ptr byte
 
     # Position
-    x:     ptr float64
-    y:     ptr float64
-    z:     ptr float64
-    angle: ptr float64
+    x*:     ptr float64
+    y*:     ptr float64
+    z*:     ptr float64
+    angle*: ptr float64
 
     # Player param
-    playerNo: ptr int64
-    playerId: ptr int64
+    playerNo*: ptr int64
+    playerId*: ptr int64
 
     # SpecialEffecct
-    spEffectId: ptr int64
+    spEffectId*: ptr int64
 
 # Constructor for the Player class
-proc newPlayer(): Player =
+proc newPlayer*(): Player =
   result.base  = cast[ptr int64] ( getOffset( processHandle, @[BaseB, 0x80] ) )
   result.param = cast[ptr int64] ( getOffset( processHandle, @[BaseB, 0x80, 0x1FA0] ) )
   # Current stats
@@ -181,51 +178,24 @@ proc newPlayer(): Player =
   # SpecialEffecct
   result.spEffectId = cast[ptr int64] ( getOffset( processHandle, @[BaseB, 0x80, 0x18, 0x18] ) + 0x30 )
 
-
 # Player class methods
-proc noHit           (this: var Player) = flipBit( this.noHitFlag[], 5 )
-proc noAttack        (this: var Player) = flipBit( this.noAttackFlag[], 6 )
-proc noMove          (this: var Player) = flipBit( this.noMoveFlag[], 7 )
-proc noGoodsConsume  (this: var Player) = flipBit( this.noGoodsConsumeFlag[], 3 )
-proc noUpdate        (this: var Player) = flipBit( this.noUpdateFlag[], 3 )
-proc disableGravity  (this: var Player) = flipBit( this.disableGravityFlag[], 6 )
-proc noDead          (this: var Player) = flipBit( this.noDeadFlag[], 2 )
-proc noDamage        (this: var Player) = flipBit( this.noDamageFlag[], 1 )
-proc noStaminaConsum (this: var Player) = flipBit( this.noStaminaConsumeFlag[], 4 )
-proc noManaConsume   (this: var Player) = flipBit( this.noManaConsumeFlag[], 5 )
-proc invulnerability (this: var Player) = flipBit( this.invulnerabilityFlag[], 7 )
-proc iFrames         (this: var Player) = flipBit( this.iFramesFlag[], 1 )
-proc parry           (this: var Player) = flipBit( this.parryFlag[], 2 )
-proc eventSuperArmor (this: var Player) = flipBit( this.eventSuperArmorFlag[], 0 )
+proc noHit*           (this: var Player) = flipBit( this.noHitFlag[], 5 )
+proc noAttack*        (this: var Player) = flipBit( this.noAttackFlag[], 6 )
+proc noMove*          (this: var Player) = flipBit( this.noMoveFlag[], 7 )
+proc noGoodsConsume*  (this: var Player) = flipBit( this.noGoodsConsumeFlag[], 3 )
+proc noUpdate*        (this: var Player) = flipBit( this.noUpdateFlag[], 3 )
+proc disableGravity*  (this: var Player) = flipBit( this.disableGravityFlag[], 6 )
+proc noDead*          (this: var Player) = flipBit( this.noDeadFlag[], 2 )
+proc noDamage*        (this: var Player) = flipBit( this.noDamageFlag[], 1 )
+proc noStaminaConsum* (this: var Player) = flipBit( this.noStaminaConsumeFlag[], 4 )
+proc noManaConsume*   (this: var Player) = flipBit( this.noManaConsumeFlag[], 5 )
+proc invulnerability* (this: var Player) = flipBit( this.invulnerabilityFlag[], 7 )
+proc iFrames*         (this: var Player) = flipBit( this.iFramesFlag[], 1 )
+proc parry*           (this: var Player) = flipBit( this.parryFlag[], 2 )
+proc eventSuperArmor* (this: var Player) = flipBit( this.eventSuperArmorFlag[], 0 )
 
-proc itemGib(this: var Player, itemId: int, quantity: int, durability: int = 0xFFFFFFFF.int) =
+proc itemGib*(this: var Player, itemId: int, quantity: int, durability: int = 0xFFFFFFFF.int) {.inline.} =
   itemGibRaw(
         mapItemMan,
         [ 1.int32, itemId.int32, quantity.int32, cast[int32](durability) ]
         )
-
-# Test
-
-var player = newPlayer()
-#[
-player.health[] = 1
-player.maxHealth[] = 2
-player.mana[] = 0
-player.maxMana[] = 1
-player.strength[] = 23
-player.intelligence[] = 99
-player.z[] = 1000
-player.angle[] = 1.24
-player.disableGravity()
-
-addSoul(player.param[], 42069)
-player.spEffectId[] = 530
-spEffect( spEffectBase,  3 )
-]#
-
-while true:
-  if GetAsyncKeyState(0x1B): # VK_ESCAPE
-    break
-  elif GetAsyncKeyState(0x48): # VK_H
-    player.itemGib(0x400001F4, 3)
-  sleep(100)
