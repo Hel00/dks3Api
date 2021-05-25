@@ -1,3 +1,6 @@
+# Standard library imports
+import math
+
 # Project imports
 import dksUtils
 
@@ -6,6 +9,7 @@ type
         # Basic stats and data
         name*:          ptr array[32, char]
         steamId*:       ptr array[32, char]
+
         level*:         ptr int
         health*:        ptr int
         maxBaseHp*:     ptr int
@@ -39,6 +43,12 @@ type
         darkSpiritDefeatCount*:       ptr int
         hostDefeatCountCount*:        ptr int
 
+        # Position
+        x:     ptr float32
+        z:     ptr float32
+        y:     ptr float32
+        angle: ptr float32
+
 proc newPlayerForeign*(playerNum: int8): PlayerForeign =
   var
     foreignPlayerBase: int
@@ -51,8 +61,8 @@ proc newPlayerForeign*(playerNum: int8): PlayerForeign =
   # Basic stats and data
   result.name          = cast[ptr array[32, char]] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x88 )
   result.steamId       = cast[ptr array[32, char]] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x7D8 )
-  result.level         = cast[ptr int]             ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x70 )
 
+  result.level         = cast[ptr int]             ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x70 )
   result.health        = cast[ptr int] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x18 )
   result.maxBaseHp     = cast[ptr int] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x20 )
   result.maxHp         = cast[ptr int] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x1C )
@@ -84,3 +94,16 @@ proc newPlayerForeign*(playerNum: int8): PlayerForeign =
   result.thiefInvadePlaySuccessCount = cast[ptr int] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0xBC )
   result.darkSpiritDefeatCount       = cast[ptr int] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x11C )
   result.hostDefeatCountCount        = cast[ptr int] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x120 )
+
+  # Position
+  result.x     = cast[ptr float32] ( getOffset( processHandle, @[BaseB, 0x40, 0x38, 0x18, 0x28] ) + 0x80 )
+  result.z     = cast[ptr float32] ( getOffset( processHandle, @[BaseB, 0x40, 0x38, 0x18, 0x28] ) + 0x84 )
+  result.y     = cast[ptr float32] ( getOffset( processHandle, @[BaseB, 0x40, 0x38, 0x18, 0x28] ) + 0x88 )
+  result.angle = cast[ptr float32] ( getOffset( processHandle, @[BaseB, 0x40, 0x38, 0x18, 0x28] ) + 0x74 )
+  # 6.283185482 is the same as 0 and half of it is pi
+
+  # Methods
+
+proc getAngle*(this: var PlayerForeign): float32 =
+  `mod`(( this.angle[] * 180.0 / PI ) + 360.0, 360.0)
+# math.fmod((-3.067349195 * 180 / math.pi) + 360, 360)
