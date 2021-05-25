@@ -35,6 +35,12 @@ while true:
     break
   elif GetKey(0x48): # VK_H
     player.itemGib(0x400001F4, 7)
+  elif GetKey(0x4A): # VK_J
+    #([[[[[BaseB]+40]+38]+18]+28]+80,12)
+    var
+      fp1 = newPlayerForeign(1)
+    #writeFile("C:\\Users\\hel\\Documents\\NimWorkspace\\dark souls 3\\output.txt", $coords)
+    writeFile("C:\\Users\\hel\\Documents\\NimWorkspace\\dark souls 3\\output.txt", $player.getAngle())
   sleep(100)
 
 #[

@@ -1,5 +1,6 @@
 # Standard library imports
 import bitops
+import math
 
 # Project imports
 import dksUtils
@@ -92,10 +93,10 @@ type
     enableCharAsmFlag*:    ptr byte
 
     # Position
-    x*:     ptr float64
-    y*:     ptr float64
-    z*:     ptr float64
-    angle*: ptr float64
+    x*:     ptr float32
+    y*:     ptr float32
+    z*:     ptr float32
+    angle*: ptr float32
 
     # Player param
     playerNo*: ptr int64
@@ -166,10 +167,10 @@ proc newPlayer*(): Player =
   result.enableCharAsmFlag    = cast[ptr byte] ( getOffset( processHandle, @[BaseB, 0x80, 0x1F90, 0x18, 0x8] ) + 0x2098 )
 
   # Position
-  result.x     = cast[ptr float64] ( getOffset( processHandle, @[BaseB, 0x40, 0x28] ) + 0x80 )
-  result.y     = cast[ptr float64] ( getOffset( processHandle, @[BaseB, 0x40, 0x28] ) + 0x84 )
-  result.z     = cast[ptr float64] ( getOffset( processHandle, @[BaseB, 0x40, 0x28] ) + 0x88 )
-  result.angle = cast[ptr float64] ( getOffset( processHandle, @[BaseB, 0x40, 0x28] ) + 0x74 )
+  result.x     = cast[ptr float32] ( getOffset( processHandle, @[BaseB, 0x40, 0x28] ) + 0x80 )
+  result.y     = cast[ptr float32] ( getOffset( processHandle, @[BaseB, 0x40, 0x28] ) + 0x84 )
+  result.z     = cast[ptr float32] ( getOffset( processHandle, @[BaseB, 0x40, 0x28] ) + 0x88 )
+  result.angle = cast[ptr float32] ( getOffset( processHandle, @[BaseB, 0x40, 0x28] ) + 0x74 )
 
   # Player param
   result.playerNo = cast[ptr int64] ( getOffset( processHandle, @[BaseA, 0x10] ) + 0x10 )
@@ -199,3 +200,6 @@ proc itemGib*(this: var Player, itemId: int, quantity: int, durability: int = 0x
         mapItemMan,
         [ 1.int32, itemId.int32, quantity.int32, cast[int32](durability) ]
         )
+
+proc getAngle*(this: var Player): float32 =
+  `mod`(( this.angle[] * 180.0 / PI ) + 360.0, 360.0)
