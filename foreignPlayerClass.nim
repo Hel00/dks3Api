@@ -62,14 +62,14 @@ proc newPlayerForeign*(playerNum: int8): PlayerForeign =
   result.name          = cast[ptr array[32, char]] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x88 )
   result.steamId       = cast[ptr array[32, char]] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x7D8 )
 
-  result.level         = cast[ptr int]             ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x70 )
-  result.health        = cast[ptr int] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x18 )
-  result.maxBaseHp     = cast[ptr int] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x20 )
-  result.maxHp         = cast[ptr int] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x1C )
-  result.maxStamina    = cast[ptr int] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x3c )
-  result.maxFp         = cast[ptr int] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x2C )
-  result.characterType = cast[ptr int] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase] ) + 0x70 )
-  result.teamType      = cast[ptr int] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase] ) + 0x74 )
+  result.level         = cast[ptr int]  ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x70 )
+  result.health        = cast[ptr int]  ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x18 )
+  result.maxBaseHp     = cast[ptr int]  ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x20 )
+  result.maxHp         = cast[ptr int]  ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x1C )
+  result.maxStamina    = cast[ptr int]  ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x3c )
+  result.maxFp         = cast[ptr int]  ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x2C )
+  result.characterType = cast[ptr int]  ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase] ) + 0x70 )
+  result.teamType      = cast[ptr int]  ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase] ) + 0x74 )
   result.covenant      = cast[ptr byte] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0xF7 )
 
   # Attributes
@@ -85,15 +85,15 @@ proc newPlayerForeign*(playerNum: int8): PlayerForeign =
 
   # Misc info
   result.invadeType                  = cast[ptr byte] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0xFD )
-  result.natType                     = cast[ptr int] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x804 )
+  result.natType                     = cast[ptr int]  ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x804 )
   result.gender                      = cast[ptr byte] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0xAA )
-  result.chrType                     = cast[ptr int] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x84 )
-  result.region                      = cast[ptr int] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x136 )
-  result.multiPlayCount              = cast[ptr int] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0xB4 )
-  result.coopPlayCount               = cast[ptr int] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0xB8 )
-  result.thiefInvadePlaySuccessCount = cast[ptr int] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0xBC )
-  result.darkSpiritDefeatCount       = cast[ptr int] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x11C )
-  result.hostDefeatCountCount        = cast[ptr int] ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x120 )
+  result.chrType                     = cast[ptr int]  ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x84 )
+  result.region                      = cast[ptr int]  ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x136 )
+  result.multiPlayCount              = cast[ptr int]  ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0xB4 )
+  result.coopPlayCount               = cast[ptr int]  ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0xB8 )
+  result.thiefInvadePlaySuccessCount = cast[ptr int]  ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0xBC )
+  result.darkSpiritDefeatCount       = cast[ptr int]  ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x11C )
+  result.hostDefeatCountCount        = cast[ptr int]  ( getOffset( processHandle, @[BaseB, 0x40, foreignPlayerBase, 0x1FA0] ) + 0x120 )
 
   # Position
   result.x     = cast[ptr float32] ( getOffset( processHandle, @[BaseB, 0x40, 0x38, 0x18, 0x28] ) + 0x80 )
