@@ -52,6 +52,7 @@ type
 proc newPlayerForeign*(playerNum: int8): PlayerForeign =
   var
     foreignPlayerBase: int
+
   if   playerNum == 1: foreignPlayerBase = 0x38
   elif playerNum == 2: foreignPlayerBase = 0x70
   elif playerNum == 3: foreignPlayerBase = 0xA8
