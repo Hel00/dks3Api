@@ -7,23 +7,23 @@ import dksUtils
 
 # Function types
 type
-  InvadeProc*    = proc(base: int64, invadeType: int) {.fastcall.}
-  AddSoulProc*   = proc(playerParamBase: int64, souls: int) {.fastcall.}
-  AddEffectProc* = proc(playerBase: int64, effect: int) {.fastcall.}
-  SpEffectProc*  = proc(spEffectBase: int64, mode: int) {.fastcall.}
-  ItemGibProc*   = proc(mapItemManager: int64, itemData: array[4, int32]) {.fastcall.}
+  InvadeProc*    = proc( base: int64, invadeType: int )                     {.fastcall.}
+  AddSoulProc*   = proc( playerParamBase: int64, souls: int )               {.fastcall.}
+  AddEffectProc* = proc( playerBase: int64, effect: int )                   {.fastcall.}
+  SpEffectProc*  = proc( spEffectBase: int64, mode: int )                   {.fastcall.}
+  ItemGibProc*   = proc( mapItemManager: int64, itemData: array[4, int32] ) {.fastcall.}
 
 let
   # Function Basses
-  addSoulBase*:  int64 = getOffset(processHandle, @[BaseB, 0x80, 0x1FA0])
-  spEffectBase*: int64 = getOffset(processHandle, @[BaseB, 0x80, 0x18, 0x18])
-  mapItemMan*:   int64 = getOffset(processHandle, @[0x144752300]) # revert back to original if this breaks
+  addSoulBase*:  int64 = getOffset( processHandle, @[BaseB, 0x80, 0x1FA0] )
+  spEffectBase*: int64 = getOffset( processHandle, @[BaseB, 0x80, 0x18, 0x18] )
+  mapItemMan*:   int64 = getOffset( processHandle, @[0x144752300] )
 
   # Functions
-  addSoul*    = cast[AddSoulProc](0x1405A3310)
-  addEffect*  = cast[AddEffectProc](0x140886C40)
-  spEffect*   = cast[SpEffectProc](0x1409F3C30)
-  itemGibRaw* = cast[ItemGibProc](0x1407BBA70)
+  addSoul*    = cast[ AddSoulProc ]   ( 0x1405A3310 )
+  addEffect*  = cast[ AddEffectProc ] ( 0x140886C40 )
+  spEffect*   = cast[ SpEffectProc ]  ( 0x1409F3C30 )
+  itemGibRaw* = cast[ ItemGibProc ]   ( 0x1407BBA70 )
 
 # Player class with its stats and shit
 type
